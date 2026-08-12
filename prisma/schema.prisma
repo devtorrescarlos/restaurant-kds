@@ -11,3 +11,67 @@ generator client {
 datasource db {
   provider = "postgresql"
 }
+
+model User {
+  id             String        @id @default(uuid())
+  email          String        @unique
+  name           String
+  password       String
+  role           UserRole      @default(WAITER)
+  is_active      Boolean       @default(true)
+  organization   Organization? @relation(fields: [organizationId], references: [id])
+  organizationId String?
+}
+
+model Order {
+  id             String        @id @default(uuid())
+  customer       String
+  notes          String?
+  total          Float
+  status         OrderStatus   @default(PENDING)
+  order_items    OrderItem[]
+  organization   Organization? @relation(fields: [organizationId], references: [id])
+  organizationId String?
+}
+
+model Product {
+  id             String        @id @default(uuid())
+  name           String
+  price          Float
+  is_active      Boolean       @default(true)
+  avg_preptime   Int?
+  order_items    OrderItem[]
+  organization   Organization? @relation(fields: [organizationId], references: [id])
+  organizationId String?
+}
+
+model OrderItem {
+  id         String  @id @default(uuid())
+  order      Order   @relation(fields: [order_id], references: [id])
+  product    Product @relation(fields: [product_id], references: [id])
+  order_id   String
+  product_id String
+  quantity   Int
+  price      Float
+}
+
+model Organization {
+  id       String    @id @default(uuid())
+  name     String
+  users    User[]
+  orders   Order[]
+  products Product[]
+}
+
+enum UserRole {
+  WAITER
+  KITCHEN
+  ADMIN
+  MANAGER
+}
+
+enum OrderStatus {
+  PENDING
+  COMPLETED
+  CANCELLED
+}
