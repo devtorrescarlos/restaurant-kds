@@ -1,9 +1,4 @@
-import {
-  Building2Icon,
-  LayoutDashboardIcon,
-  StoreIcon,
-  UsersIcon,
-} from "lucide-react";
+import { Building2Icon, LayoutDashboardIcon, UsersIcon } from "lucide-react";
 
 export const ADMIN_LINKS = [
   { href: "/admin", label: "Dashboard", icon: LayoutDashboardIcon },
