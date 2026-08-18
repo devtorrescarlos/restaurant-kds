@@ -4,10 +4,8 @@ import {
   UserPlusIcon,
   UsersIcon,
 } from "lucide-react";
-
 import { StatCard } from "@/components/shared/stat-card";
 import { Button } from "@/components/ui/button";
-
 import { TopOrganizations } from "@/features/admin/components/top-organizations";
 
 const MANAGER_COUNT = 12;
