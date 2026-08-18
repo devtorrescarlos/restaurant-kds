@@ -1,6 +1,6 @@
 import { CheckCircle2Icon, TrophyIcon } from "lucide-react";
-
 import { SectionCard } from "@/components/shared/section-card";
+import { getInitials } from "@/lib/getInitials";
 
 const TOP_ORGANIZATIONS = [
   { id: "1", name: "Restaurante El Fogón", completedOrders: 128 },
@@ -9,15 +9,6 @@ const TOP_ORGANIZATIONS = [
   { id: "4", name: "Pizzería Don Luigi", completedOrders: 53 },
   { id: "5", name: "Cervecería Artesanal 7", completedOrders: 41 },
 ];
-
-function getInitials(name: string) {
-  return name
-    .split(" ")
-    .slice(0, 2)
-    .map((word) => word.charAt(0))
-    .join("")
-    .toUpperCase();
-}
 
 export function TopOrganizations() {
   return (
@@ -44,8 +35,12 @@ export function TopOrganizations() {
               {getInitials(organization.name)}
             </div>
             <div className="grid min-w-0 flex-1 gap-0.5">
-              <p className="truncate text-sm font-medium">{organization.name}</p>
-              <p className="text-xs text-muted-foreground">Organización activa</p>
+              <p className="truncate text-sm font-medium">
+                {organization.name}
+              </p>
+              <p className="text-xs text-muted-foreground">
+                Organización activa
+              </p>
             </div>
             <div className="flex shrink-0 items-center gap-1.5 rounded-full bg-brand-primary/10 px-2.5 py-1 text-sm font-semibold text-brand-primary">
               <CheckCircle2Icon className="size-4" />
