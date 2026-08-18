@@ -18,7 +18,8 @@ model User {
   name           String
   password       String
   role           UserRole      @default(WAITER)
-  is_active      Boolean       @default(true)
+  is_active      Boolean       @default(false)
+  status         UserStatus    @default(PENDING)
   organization   Organization? @relation(fields: [organizationId], references: [id])
   organizationId String?
 }
@@ -74,4 +75,10 @@ enum OrderStatus {
   PENDING
   COMPLETED
   CANCELLED
+}
+
+enum UserStatus {
+  PENDING
+  APPROVED
+  SUSPENDED
 }

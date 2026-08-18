@@ -6,7 +6,7 @@ import { Input } from "@/components/ui/input";
 import { cn } from "@/lib/utils";
 import { getInitials } from "@/lib/getInitials";
 
-const STATUS_FILTERS = ["Todos", "En servicio", "En pausa", "Suspendidos"];
+const STATUS_FILTERS = ["Todos", "En servicio", "Pendiente", "Suspendidos"];
 
 const MANAGERS = [
   {
@@ -41,7 +41,7 @@ const MANAGERS = [
     name: "Luciana Rossi",
     email: "luciana.rossi@luigi.com",
     organization: "Pizzería Don Luigi",
-    status: "standby",
+    status: "pending",
     orders: 53,
     joinedAt: "19 nov 2024",
   },
@@ -67,7 +67,7 @@ const MANAGERS = [
 
 const STATUS_META = {
   active: { variant: "active", label: "En servicio" },
-  standby: { variant: "standby", label: "En pausa" },
+  pending: { variant: "pending", label: "Pendiente" },
   suspended: { variant: "suspended", label: "Suspendido" },
 } as const;
 
@@ -185,13 +185,24 @@ export function ManagersTable() {
                     {manager.joinedAt}
                   </td>
                   <td className="py-3 text-right">
-                    <Button
-                      variant="ghost"
-                      size="sm"
-                      className="cursor-pointer"
-                    >
-                      Ver
-                    </Button>
+                    <div className="flex justify-end gap-1">
+                      {manager.status === "active" ? (
+                        <Button
+                          size="sm"
+                          variant="outline"
+                          className="cursor-pointer"
+                        >
+                          Suspender
+                        </Button>
+                      ) : (
+                        <Button
+                          size="sm"
+                          className="bg-brand-primary text-white hover:bg-brand-primary/80 cursor-pointer"
+                        >
+                          Activar
+                        </Button>
+                      )}
+                    </div>
                   </td>
                 </tr>
               );
