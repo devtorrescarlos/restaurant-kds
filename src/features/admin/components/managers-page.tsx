@@ -1,8 +1,5 @@
-import { ActivityIcon, CirclePauseIcon, UserPlusIcon, UsersIcon } from "lucide-react";
-
+import { ActivityIcon, CirclePauseIcon, UsersIcon } from "lucide-react";
 import { StatCard } from "@/components/shared/stat-card";
-import { Button } from "@/components/ui/button";
-
 import { ManagersTable } from "@/features/admin/components/managers-table";
 
 const MANAGER_COUNT = 12;
@@ -21,13 +18,6 @@ export function ManagersPage() {
             Equipo de gestión de las organizaciones del sistema
           </p>
         </div>
-        <Button
-          size="lg"
-          className="bg-brand-primary text-white hover:bg-brand-primary/80 cursor-pointer"
-        >
-          <UserPlusIcon />
-          Agregar gerente
-        </Button>
       </header>
 
       <section className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">

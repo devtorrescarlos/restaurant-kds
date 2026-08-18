@@ -9,16 +9,14 @@ const statusBadgeVariants = cva(
       variant: {
         active:
           "border-brand-primary/20 bg-brand-primary/10 text-brand-primary",
-        standby:
-          "border-amber-500/30 bg-amber-500/10 text-amber-700",
-        suspended:
-          "border-slate-400/30 bg-slate-400/10 text-slate-500",
+        pending: "border-amber-500/30 bg-amber-500/10 text-amber-700",
+        suspended: "border-slate-400/30 bg-slate-400/10 text-slate-500",
       },
     },
     defaultVariants: {
       variant: "active",
     },
-  }
+  },
 );
 
 interface StatusBadgeProps extends VariantProps<typeof statusBadgeVariants> {
