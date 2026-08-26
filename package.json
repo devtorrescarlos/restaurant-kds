@@ -8,9 +8,9 @@
     "start": "next start",
     "lint": "eslint",
     "test": "vitest",
-    "coverage": "vitest --coverage",
-    "unit-test": "npx vitest run --project unit",
-    "integration-test": "npx vitest run --project integration",
+    "coverage": "vitest run --coverage",
+    "unit-test": "vitest run --exclude **/*integration*",
+    "integration-test": "vitest run integration",
     "postinstall": "prisma generate",
     "db:seed": "prisma db seed"
   },
