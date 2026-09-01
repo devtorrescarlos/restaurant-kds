@@ -16,7 +16,9 @@ export function SuperadminDashboard({
 }: {
   managers: GetManagersResponse;
 }) {
-  const MANAGER_COUNT = managers.data.length;
+  console.log(managers);
+
+  const MANAGER_COUNT = managers.total;
   const ORGANIZATION_COUNT = 2;
 
   return (
