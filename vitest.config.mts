@@ -1,10 +1,21 @@
 import { defineConfig } from "vitest/config";
 import react from "@vitejs/plugin-react";
-import tsconfigPaths from "vite-tsconfig-paths";
 
 export default defineConfig({
-  plugins: [tsconfigPaths(), react()],
+  plugins: [react()],
+  resolve: {
+    tsconfigPaths: true,
+  },
   test: {
-    environment: "jsdom",
+    include: ["src/**/*.{test,spec}.?(c|m)[jt]s?(x)"],
+    coverage: {
+      include: ["src/**/*.{ts,tsx}"],
+      exclude: [
+        "src/**/*.test.{ts,tsx}",
+        "src/**/*.integration.test.{ts,tsx}",
+        "src/generated/**",
+        "src/lib/test-helpers.ts",
+      ],
+    },
   },
 });

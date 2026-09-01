@@ -9,11 +9,18 @@ import { StatCard } from "@/components/shared/stat-card";
 import { Button } from "@/components/ui/button";
 import { TopOrganizations } from "@/features/admin/components/top-organizations";
 import Link from "next/link";
+import { GetManagersResponse } from "../validations/manager.schema";
 
-const MANAGER_COUNT = 12;
-const ORGANIZATION_COUNT = 5;
+export function SuperadminDashboard({
+  managers,
+}: {
+  managers: GetManagersResponse;
+}) {
+  console.log(managers);
 
-export function SuperadminDashboard() {
+  const MANAGER_COUNT = managers.total;
+  const ORGANIZATION_COUNT = 2;
+
   return (
     <div className="flex flex-col gap-6">
       <header className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
