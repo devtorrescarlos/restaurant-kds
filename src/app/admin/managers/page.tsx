@@ -4,6 +4,8 @@ import { ManagersTable } from "@/features/admin/components/managers-table";
 import { getManagers, getManagerStats } from "@/features/admin/services/managers.service";
 import { getManagerSchema } from "@/features/admin/validations/manager.schema";
 
+export const dynamic = "force-dynamic";
+
 export default async function ManagersSummaryPage({
   searchParams,
 }: {
