@@ -2,15 +2,47 @@ import { prisma } from "@/lib/prisma";
 import { UserStatus } from "@/generated/prisma/enums";
 import { CONFLICT, NOT_FOUND } from "@/lib/errors";
 
+export const getManagerStats = async () => {
+  const [grouped, total] = await Promise.all([
+    prisma.user.groupBy({
+      by: ["status"],
+      where: { role: "MANAGER" },
+      _count: { status: true },
+    }),
+    prisma.user.count({ where: { role: "MANAGER" } }),
+  ]);
+
+  const byStatus = (status: UserStatus) =>
+    grouped.find((group) => group.status === status)?._count.status ?? 0;
+
+  return {
+    total,
+    approved: byStatus(UserStatus.APPROVED),
+    pending: byStatus(UserStatus.PENDING),
+    suspended: byStatus(UserStatus.SUSPENDED),
+  };
+};
+
 export const getManagers = async (params: {
   page: number;
   limit: number;
+  search?: string;
   status?: UserStatus;
-}) => {
-  const managers = await prisma.user.findMany({
+}) => {  const managers = await prisma.user.findMany({
     where: {
       role: "MANAGER",
       status: params.status,
+      ...(params.search && {
+        OR: [
+          { name: { contains: params.search, mode: "insensitive" } },
+          { email: { contains: params.search, mode: "insensitive" } },
+          {
+            organization: {
+              name: { contains: params.search, mode: "insensitive" },
+            },
+          },
+        ],
+      }),
     },
     skip: (params.page - 1) * params.limit,
     take: params.limit,
@@ -33,10 +65,29 @@ export const getManagers = async (params: {
     where: {
       role: "MANAGER",
       status: params.status,
+      ...(params.search && {
+        OR: [
+          { name: { contains: params.search, mode: "insensitive" } },
+          { email: { contains: params.search, mode: "insensitive" } },
+          {
+            organization: {
+              name: { contains: params.search, mode: "insensitive" },
+            },
+          },
+        ],
+      }),
     },
   });
 
-  return { data: managers, pagination: { total } };
+  return {
+    data: managers,
+    pagination: {
+      page: params.page,
+      limit: params.limit,
+      total,
+      totalPages: Math.ceil(total / params.limit),
+    },
+  };
 };
 
 export const approveManagers = async (id: string) => {

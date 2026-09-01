@@ -1,9 +1,11 @@
 import { describe, it, expect, vi, beforeEach } from "vitest";
 import {
   approveManagers,
+  getManagerStats,
   getManagers,
   suspendManagers,
 } from "./managers.service";
+import { UserStatus } from "@/generated/prisma/enums";
 
 const { prismaMock } = vi.hoisted(() => ({
   prismaMock: {
@@ -12,6 +14,7 @@ const { prismaMock } = vi.hoisted(() => ({
       count: vi.fn(),
       findUnique: vi.fn(),
       update: vi.fn(),
+      groupBy: vi.fn(),
     },
   },
 }));
@@ -23,6 +26,7 @@ vi.mock("@/lib/prisma", () => ({
       count: prismaMock.user.count,
       findUnique: prismaMock.user.findUnique,
       update: prismaMock.user.update,
+      groupBy: prismaMock.user.groupBy,
     },
   },
 }));
@@ -92,7 +96,10 @@ describe("getManagers", () => {
     expect(result).toEqual({
       data: mockManagers,
       pagination: {
+        page: 1,
+        limit: 10,
         total: mockManagers.length,
+        totalPages: Math.ceil(mockManagers.length / 10),
       },
     });
   });
@@ -109,7 +116,10 @@ describe("getManagers", () => {
     expect(result).toEqual({
       data: [],
       pagination: {
+        page: 1,
+        limit: 10,
         total: 0,
+        totalPages: Math.ceil(0 / 10),
       },
     });
 
@@ -150,7 +160,10 @@ describe("getManagers", () => {
     expect(result).toEqual({
       data: mockManagers,
       pagination: {
+        page: 1,
+        limit: 10,
         total: mockManagers.length,
+        totalPages: Math.ceil(mockManagers.length / 10),
       },
     });
   });
@@ -168,7 +181,10 @@ describe("getManagers", () => {
     expect(result).toEqual({
       data: [],
       pagination: {
+        page: 99,
+        limit: 10,
         total: mockManagers.length,
+        totalPages: Math.ceil(mockManagers.length / 10),
       },
     });
   });
@@ -267,5 +283,28 @@ describe("suspendManagers", () => {
 
     expect(prismaMock.user.findUnique).toHaveBeenCalledTimes(1);
     expect(prismaMock.user.update).not.toHaveBeenCalled();
+  });
+});
+
+describe("getManagerStats", () => {
+  it("should return manager stats", async () => {
+    prismaMock.user.groupBy.mockResolvedValue([
+      { status: UserStatus.APPROVED, _count: { status: 1 } },
+      { status: UserStatus.PENDING, _count: { status: 1 } },
+      { status: UserStatus.SUSPENDED, _count: { status: 1 } },
+    ]);
+    prismaMock.user.count.mockResolvedValue(3);
+
+    const result = await getManagerStats();
+
+    expect(result).toEqual({
+      total: 3,
+      approved: 1,
+      pending: 1,
+      suspended: 1,
+    });
+
+    expect(prismaMock.user.groupBy).toHaveBeenCalledTimes(1);
+    expect(prismaMock.user.count).toHaveBeenCalledTimes(1);
   });
 });

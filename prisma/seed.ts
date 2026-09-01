@@ -78,6 +78,7 @@ async function main() {
       role: "MANAGER" as const,
       status: "APPROVED" as const,
       is_active: true,
+      organizationId: org1.id,
     },
     {
       name: "Isabel Moreno",
@@ -86,6 +87,52 @@ async function main() {
       role: "MANAGER" as const,
       status: "PENDING" as const,
       is_active: false,
+      organizationId: org2.id,
+    },
+    {
+      name: "Juan Galicia",
+      email: "juang@example.com",
+      password,
+      role: "MANAGER" as const,
+      status: "SUSPENDED" as const,
+      is_active: false,
+      organizationId: org1.id,
+    },
+    {
+      name: "Pedro Suarez",
+      email: "suarezpedro@example.com",
+      password,
+      role: "MANAGER" as const,
+      status: "APPROVED" as const,
+      is_active: false,
+      organizationId: org2.id,
+    },
+    {
+      name: "Fernando Torres",
+      email: "fernandot@example.com",
+      password,
+      role: "MANAGER" as const,
+      status: "APPROVED" as const,
+      is_active: false,
+      organizationId: org2.id,
+    },
+    {
+      name: "Rodrigo Mendez",
+      email: "rodrigo@example.com",
+      password,
+      role: "MANAGER" as const,
+      status: "SUSPENDED" as const,
+      is_active: false,
+      organizationId: org2.id,
+    },
+    {
+      name: "Luis Caballero",
+      email: "luis@example.com",
+      password,
+      role: "MANAGER" as const,
+      status: "APPROVED" as const,
+      is_active: true,
+      organizationId: org2.id,
     },
   ];
 
@@ -93,7 +140,9 @@ async function main() {
     await prisma.user.create({ data: manager });
   }
 
-  console.log(`Seed completado: ${managers.length} managers creados en 2 organizaciones`);
+  console.log(
+    `Seed completado: ${managers.length} managers creados en 2 organizaciones`,
+  );
 }
 
 main()
