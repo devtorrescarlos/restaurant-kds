@@ -17,6 +17,7 @@ import {
   SidebarMenuItem,
   SidebarSeparator,
 } from "@/components/ui/sidebar";
+import { logout } from "@/features/admin/actions/auth.action";
 
 export function AppSidebar() {
   const pathname = usePathname();
@@ -71,10 +72,12 @@ export function AppSidebar() {
             </SidebarMenuButton>
           </SidebarMenuItem>
           <SidebarMenuItem>
-            <SidebarMenuButton tooltip="Cerrar sesión">
-              <LogOutIcon />
-              <span>Cerrar sesión</span>
-            </SidebarMenuButton>
+            <form action={logout}>
+              <SidebarMenuButton tooltip="Cerrar sesión" type="submit">
+                <LogOutIcon />
+                <span>Cerrar sesión</span>
+              </SidebarMenuButton>
+            </form>
           </SidebarMenuItem>
         </SidebarMenu>
       </SidebarFooter>

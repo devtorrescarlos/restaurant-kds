@@ -4,6 +4,14 @@ import { createRequest, VALID_UUID } from "@/lib/test-helpers";
 import dotenv from "dotenv";
 dotenv.config();
 
+vi.mock("@/lib/dal", () => ({
+  verifySession: vi.fn().mockResolvedValue({
+    isAuth: true,
+    userId: "test-admin",
+    role: "ADMIN",
+  }),
+}));
+
 const { prismaMock } = vi.hoisted(() => ({
   prismaMock: {
     user: {

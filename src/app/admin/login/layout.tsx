@@ -1,15 +1,11 @@
-export default function DashboardLayout({
+export default function LoginLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en">
-      <body>
-        {/* Layout UI */}
-        {/* Place children where you want to render a page or nested layout */}
-        <main>{children}</main>
-      </body>
-    </html>
+    <main className="flex min-h-screen flex-col items-center justify-center bg-brand-tertiary p-4">
+      {children}
+    </main>
   );
 }

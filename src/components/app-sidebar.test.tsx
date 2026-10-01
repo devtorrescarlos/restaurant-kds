@@ -1,5 +1,5 @@
 // @vitest-environment jsdom
-import { afterEach, beforeEach, describe, expect, test, vi } from "vitest";
+import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { cleanup, render, screen } from "@testing-library/react";
 import { AppSidebar } from "./app-sidebar";
 import { SidebarProvider } from "./ui/sidebar";
@@ -19,13 +19,18 @@ beforeEach(() => {
   }));
 });
 
+vi.mock("@/features/admin/actions/auth.action", () => ({
+  login: vi.fn(),
+  logout: vi.fn(),
+}));
+
 const mockRouter = vi.hoisted(() => ({ value: "/admin" }));
 vi.mock("next/navigation", () => ({
   usePathname: () => mockRouter.value,
 }));
 
 describe("AppSidebar", () => {
-  test("AppSidebar should render", () => {
+  it("AppSidebar should render", () => {
     render(
       <SidebarProvider>
         <AppSidebar />
@@ -35,7 +40,7 @@ describe("AppSidebar", () => {
     expect(screen.getByText("Panel de administración")).toBeDefined();
   });
 
-  test("should highlight active link", () => {
+  it("should highlight active link", () => {
     render(
       <SidebarProvider>
         <AppSidebar />

@@ -1,9 +1,11 @@
 import { getManagerSchema } from "@/features/admin/validations/manager.schema";
 import { NextResponse, NextRequest } from "next/server";
 import { getManagers } from "@/features/admin/services/managers.service";
+import { verifySession } from "@/lib/dal";
 
 export const GET = async (req: NextRequest) => {
   try {
+    await verifySession();
     const parse = getManagerSchema.safeParse({
       page: req.nextUrl.searchParams.get("page") ?? undefined,
       limit: req.nextUrl.searchParams.get("limit") ?? undefined,

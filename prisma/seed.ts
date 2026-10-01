@@ -24,6 +24,18 @@ async function main() {
   });
 
   const password = await bcrypt.hash("password123", 10);
+  const adminPassword = await bcrypt.hash("password", 10);
+
+  await prisma.user.create({
+    data: {
+      name: "Admin",
+      email: "admin@correo.com",
+      password: adminPassword,
+      role: "ADMIN" as const,
+      status: "APPROVED" as const,
+      is_active: true,
+    },
+  });
 
   const managers = [
     {

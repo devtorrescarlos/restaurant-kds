@@ -4,12 +4,15 @@ import {
   SidebarTrigger,
 } from "@/components/ui/sidebar";
 import { AppSidebar } from "@/components/app-sidebar";
+import { verifySession } from "@/lib/dal";
 
-export default function AdminLayout({
+export default async function AdminLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
+  await verifySession();
+
   return (
     <SidebarProvider>
       <AppSidebar />
