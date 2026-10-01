@@ -28,7 +28,8 @@ export const getManagers = async (params: {
   limit: number;
   search?: string;
   status?: UserStatus;
-}) => {  const managers = await prisma.user.findMany({
+}) => {
+  const managers = await prisma.user.findMany({
     where: {
       role: "MANAGER",
       status: params.status,
